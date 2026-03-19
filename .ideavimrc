@@ -1,6 +1,5 @@
 nnoremap \e :e ~/.ideavimrc<CR>
 nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
-
 set clipboard^=unnamed,unnamedplus
 set lazyredraw
 set ignorecase
@@ -27,16 +26,22 @@ map sk <C-w>k
 map sj <C-w>j
 map sl <C-w>l
 
+map > >gv
+map < <gv
+
+"map x "_x
+"map <Leader><Leader>d "_d
+
 " Plugins
 Plug 'easymotion/vim-easymotion'
-map <Leader> <Plug>(easymotion-prefix)
-Plug 'preservim/nerdtree'
+map <leader> <Plug>(easymotion-prefix)
+" Plug 'preservim/nerdtree'
+Plug 'nerdtree'
 nnoremap <leader><leader>n :NERDTreeFocus<CR>
 nnoremap <leader><leader>t :NERDTreeToggle<CR>
 nnoremap <leader><leader>f :NERDTreeFind<CR>
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
-"set multiple-cursors
 " remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
 nmap <C-n> <Plug>NextWholeOccurrence
 xmap <C-n> <Plug>NextWholeOccurrence
@@ -52,7 +57,9 @@ nmap <S-C-n> <Plug>AllWholeOccurrences
 xmap <S-C-n> <Plug>AllWholeOccurrences
 nmap g<S-C-n> <Plug>AllOccurrences
 xmap g<S-C-n> <Plug>AllOccurrences
-
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-commentary'
+Plug 'machakann/vim-highlightedyank'
 " IntelliJ actions mapping
 map ,a <Action>(GotoAction)
 " code navigation
@@ -84,6 +91,7 @@ map gb <Action>(Back)
 map gf <Action>(Forward)
 map gm <Action>(ToggleBookmark)
 map gsm <Action>(ShowBookmarks)
+map gem <Action>(EditBookmark)
 map <leader>m <Action>(MoveEditorToOppositeTabGroup)
 nnoremap <leader>zc :action CollapseAllRegions<CR>
 nnoremap <leader>zo :action ExpandAllRegions<CR>
@@ -93,6 +101,7 @@ map <leader><leader>t <Action>(Refactorings.QuickListPopupAction)
 map <leader>r <Action>(RenameElement)
 map gl <Action>(ReformatCode)
 map <leader>lt <Action>(Javascript.Linters.EsLint.Fix)
+
 " test
 map <leader><leader>r <Action>(Run)
 map <leader><leader>c <Action>(RunClass)
