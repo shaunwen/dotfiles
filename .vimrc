@@ -18,6 +18,7 @@ Plug 'morhetz/gruvbox'
 call plug#end()
 " End of plugin management
 
+set number
 " Use OSX clipboard to copy and to paste
 set clipboard=unnamed
 syntax on

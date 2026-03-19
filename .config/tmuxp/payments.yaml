@@ -1,0 +1,56 @@
+session_name: payments
+
+windows:
+  - window_name: myNotes
+    focus: 'true'
+    layout: bd9e,282x63,0,0,1
+    options:
+      automatic-rename: false
+    start_directory: /Users/shaun.wen/Documents/myNotes
+    panes:
+      - focus: 'true'
+
+  - window_name: scalapay-repos
+    layout: cc68,282x63,0,0{130x63,0,0,2,151x63,131,0,3}
+    options:
+      automatic-rename: false
+    start_directory: /Users/shaun.wen/workspace/projects/scalapay-repos
+    panes:
+      - {}
+      - focus: 'true'
+
+  - window_name: payment-api
+    layout: d4db,282x63,0,0{131x63,0,0,4,150x63,132,0,5}
+    options:
+      automatic-rename: false
+    start_directory: /Users/shaun.wen/workspace/projects/scalapay-repos/scalapay-customer-payment-services-api
+    panes:
+      - focus: 'true'
+      - {}
+
+  - window_name: review
+    layout: bda3,282x63,0,0,6
+    options:
+      automatic-rename: false
+    start_directory: /Users/shaun.wen/workspace/projects/scalapay-repos
+    panes:
+      - {}
+
+  - window_name: model
+    layout: 4dc1,282x63,0,0{138x63,0,0,7,143x63,139,0[143x31,139,0,8,143x31,139,32,9]}
+    options:
+      automatic-rename: false
+    panes:
+      - focus: 'true'
+        start_directory: /Users/shaun.wen
+      - start_directory: /Users/shaun.wen/workspace/backup/scalapay_db
+      - start_directory: /Users/shaun.wen/workspace/bin
+
+  - window_name: myPRs
+    layout: 5eff,282x63,0,0,10
+    options:
+      automatic-rename: false
+    start_directory: /Users/shaun.wen/workspace/projects/scalapay-repos
+    panes:
+      - shell_command: myprs
+        focus: true
