@@ -1,19 +1,22 @@
 # dotfiles
 
-Personal macOS development environment configs for tmux, Alacritty, Vim, IdeaVim, Karabiner, GitUI, Homebrew, and tmuxp.
+Personal macOS development environment configs for zsh, tmux, Alacritty, Vim, IdeaVim, Karabiner, GitUI, Homebrew, and tmuxp.
 
-## What is in this repo
+## Stow packages
 
-- `.tmux.conf`: tmux tuned around a `C-a` prefix, Vim-style pane navigation, mouse support, clipboard integration, session restore, and `tmux-fzf`.
-- `tmux-sessionizer`: fuzzy-picks a project directory, creates a tmux session if needed, and switches to it.
-- `.config/tmuxp/payments.yaml`: saved tmuxp workspace for a payments-focused session layout.
-- `.config/alacritty/alacritty.toml`: Catppuccin Macchiato Alacritty config with JetBrainsMono Nerd Font and macOS-style keybindings.
-- `.config/karabiner/karabiner.json`: keyboard remaps including `Caps Lock -> Esc` when tapped and `Caps Lock -> Ctrl` when held.
-- `.config/gitui/theme.ron`: Catppuccin-flavoured GitUI theme.
-- `.vimrc`: Vim config built around `vim-plug`, `gruvbox`, `fzf`, NERDTree, EasyMotion, surround, commentary, and language plugins.
-- `.ideavimrc`: IdeaVim config that mirrors many Vim motions and adds IntelliJ action mappings.
-- `brew/brew_packages.txt`: package list for CLI tools and desktop apps.
-- `brew/install_brew_packages.zsh`: helper script to install the Homebrew package list.
+This repo is organised as top-level GNU Stow packages:
+
+- `zsh/.zshrc`
+- `tmux/.tmux.conf`
+- `tmux/.local/bin/tmux-sessionizer`
+- `tmuxp/.config/tmuxp/payments.yaml`
+- `alacritty/.config/alacritty/alacritty.toml`
+- `gitui/.config/gitui/theme.ron`
+- `karabiner/.config/karabiner/karabiner.json`
+- `vim/.vimrc`
+- `ideavim/.ideavimrc`
+
+The `brew/` directory is repo support data, not a Stow package.
 
 Neovim configuration lives in a separate repository: [shaunwen/nvim](https://github.com/shaunwen/nvim).
 
@@ -21,23 +24,34 @@ Neovim configuration lives in a separate repository: [shaunwen/nvim](https://git
 
 This repository contains a mix of portable config and machine-specific paths. Before using it on another machine, update hard-coded directories in:
 
-- `tmux-sessionizer`
-- `.config/tmuxp/payments.yaml`
+- `tmux/.local/bin/tmux-sessionizer`
+- `tmuxp/.config/tmuxp/payments.yaml`
 
-Link the tracked files into place with something like:
+Create the parent directories first:
 
 ```sh
 mkdir -p ~/.config/alacritty ~/.config/gitui ~/.config/karabiner ~/.config/tmuxp ~/.local/bin
-
-ln -sfn "$PWD/.tmux.conf" ~/.tmux.conf
-ln -sfn "$PWD/.vimrc" ~/.vimrc
-ln -sfn "$PWD/.ideavimrc" ~/.ideavimrc
-ln -sfn "$PWD/tmux-sessionizer" ~/.local/bin/tmux-sessionizer
-ln -sfn "$PWD/.config/alacritty/alacritty.toml" ~/.config/alacritty/alacritty.toml
-ln -sfn "$PWD/.config/gitui/theme.ron" ~/.config/gitui/theme.ron
-ln -sfn "$PWD/.config/karabiner/karabiner.json" ~/.config/karabiner/karabiner.json
-ln -sfn "$PWD/.config/tmuxp/payments.yaml" ~/.config/tmuxp/payments.yaml
 ```
+
+Preview the Stow operations:
+
+```sh
+cd ~/dotfiles
+stow -nv zsh tmux tmuxp vim ideavim alacritty gitui karabiner
+```
+
+If the dry-run is clean, apply it:
+
+```sh
+stow -Sv zsh tmux tmuxp vim ideavim alacritty gitui karabiner
+```
+
+If you already have unmanaged files in `$HOME`, Stow will report conflicts instead of overwriting them. In that case, either:
+
+- move or back up the conflicting target files first, then rerun `stow -Sv ...`
+- or use `stow -Sv --adopt ...` if you explicitly want Stow to import the current target files into the package layout
+
+The current `zsh` package also restores the expected `~/dotfiles/zsh/.zshrc` target, so an existing `~/.zshrc -> ~/dotfiles/zsh/.zshrc` symlink becomes valid again once this repo layout is in place.
 
 To install the Homebrew package set:
 
@@ -140,4 +154,5 @@ GitUI uses a Catppuccin-style theme that matches the Alacritty palette.
 
 ## Notes
 
-This repo no longer documents a tracked `.zshrc` because shell customisation is not currently versioned here. The main shell-related setup that remains in-repo is the Homebrew package list and the tmux/Vim tooling built on top of it.
+- `zsh/.zshrc` is tracked in this repo again and can be managed through Stow like the other packages.
+- `brew/` stays as repo-local support data and should not be passed to `stow`.
