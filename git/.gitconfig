@@ -1,0 +1,61 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Shaun Wen
+	email = shaun.wen@scalapay.com
+[githooks]
+	installDir = /Users/shaun.wen/.githooks
+	runner = /Users/shaun.wen/.githooks/release/base-template.sh
+	cloneUrl = https://github.com/rycus86/githooks.git
+	cloneBranch = master
+[alias]
+	hooks = !\"/Users/shaun.wen/.githooks/bin/githooks\"
+	lol = log --graph --decorate --oneline
+[githooks "autoupdate"]
+	enabled = true
+
+### delta config begin
+[core]
+  pager = "{                                                           \
+      COLUMNS=$(tput cols);                                            \
+      if [ $COLUMNS -ge 160 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then     \
+          delta --side-by-side -w $COLUMNS;                            \
+      elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
+          delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
+      else                                                             \
+          delta;                                                       \
+      fi                                                               \
+  }"
+  # config referened from https://github.com/wfxr/forgit/issues/121#issuecomment-725811214
+
+[interactive]
+    diffFilter = delta --color-only
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    features = line-numbers decorations
+    syntax-theme = Dracula
+    plus-style = syntax "#003800"
+    minus-style = syntax "#3f0001"
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-decoration-style = cyan box ul
+
+[delta "line-numbers"]
+    line-numbers-left-style = cyan
+    line-numbers-right-style = cyan
+    line-numbers-minus-style = 124
+    line-numbers-plus-style = 28
+### delta config end
+
+[push]
+    autoSetupRemote = true

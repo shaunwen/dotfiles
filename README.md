@@ -1,22 +1,30 @@
 # dotfiles
 
-Personal macOS development environment configs for zsh, tmux, Alacritty, Vim, IdeaVim, Karabiner, GitUI, Homebrew, and tmuxp.
+Personal macOS development environment configuration for zsh, git, gitui, tmux, tmuxp, Alacritty, Ghostty, Vim, IdeaVim, Neovide, Karabiner, glow and Homebrew.
 
 ## Stow packages
 
 This repo is organised as top-level GNU Stow packages:
 
 - `zsh/.zshrc`
+- `git/.gitconfig`
 - `tmux/.tmux.conf`
 - `tmux/.local/bin/tmux-sessionizer`
 - `tmuxp/.config/tmuxp/payments.yaml`
 - `alacritty/.config/alacritty/alacritty.toml`
+- `ghostty/.config/ghostty/config`
 - `gitui/.config/gitui/theme.ron`
+- `glow/.config/glow/styles/dark-customised.json`
+- `neovide/.config/neovide/config.toml`
 - `karabiner/.config/karabiner/karabiner.json`
 - `vim/.vimrc`
 - `ideavim/.ideavimrc`
 
-The `brew/` directory is repo support data, not a Stow package.
+The `brew/` directory is repo support data, not a Stow package. It contains:
+
+- `brew/brew_formulae.txt`
+- `brew/brew_casks.txt`
+- `brew/install_brew_packages.zsh`
 
 Neovim configuration lives in a separate repository: [shaunwen/nvim](https://github.com/shaunwen/nvim).
 
@@ -30,20 +38,20 @@ This repository contains a mix of portable config and machine-specific paths. Be
 Create the parent directories first:
 
 ```sh
-mkdir -p ~/.config/alacritty ~/.config/gitui ~/.config/karabiner ~/.config/tmuxp ~/.local/bin
+mkdir -p ~/.local/bin ~/.config/gitui ~/.config/ghostty ~/.config/tmuxp ~/.config/neovide ~/.config/alacritty ~/.config/karabiner ~/.config/glow/styles
 ```
 
 Preview the Stow operations:
 
 ```sh
 cd ~/dotfiles
-stow -nv zsh tmux tmuxp vim ideavim alacritty gitui karabiner
+stow -nv zsh git gitui tmux tmuxp vim ideavim neovide alacritty ghostty karabiner glow
 ```
 
 If the dry-run is clean, apply it:
 
 ```sh
-stow -Sv zsh tmux tmuxp vim ideavim alacritty gitui karabiner
+stow -Sv zsh git gitui tmux tmuxp vim ideavim neovide alacritty ghostty karabiner glow
 ```
 
 If you already have unmanaged files in `$HOME`, Stow will report conflicts instead of overwriting them. In that case, either:
@@ -60,7 +68,9 @@ cd brew
 ./install_brew_packages.zsh
 ```
 
-The package list includes the main tools this repo expects, such as `tmux`, `tmuxp`, `fzf`, `ripgrep`, `fd`, `gitui`, `alacritty`, `karabiner-elements`, and `font-jetbrains-mono-nerd-font`.
+`brew/install_brew_packages.zsh` installs both `brew_formulae.txt` and `brew_casks.txt`.
+
+The package lists include the main tools this repo expects, such as `tmux`, `tmuxp`, `fzf`, `ripgrep`, `fd`, `gitui`, `alacritty`, `karabiner-elements`, and Nerd Font casks.
 
 ## Tmux
 
@@ -136,6 +146,16 @@ The Alacritty config uses:
 - `selection.save_to_clipboard = true`
 - scrollback history of `100000`
 
+## Git, Ghostty, Glow and Neovide
+
+`git/.gitconfig` tracks the user-level Git setup, including `delta` as the pager, `diff3` merge conflict style, and local aliases and githooks paths.
+
+`ghostty/.config/ghostty/config` tracks a Catppuccin Macchiato Ghostty setup with JetBrainsMono Nerd Font Mono, zsh as the shell, and a few macOS-friendly keybindings.
+
+`glow/.config/glow/styles/dark-customised.json` tracks the custom terminal markdown theme used by the `glow` CLI.
+
+`neovide/.config/neovide/config.toml` currently pins the Neovide frontend to the Homebrew Neovim binary at `/opt/homebrew/bin/nvim`.
+
 ## Editor configs
 
 `.vimrc` is the classic Vim setup in this repo. It uses `vim-plug`, `gruvbox`, FZF, NERDTree, EasyMotion, multiple cursors, commentary, and language support for JavaScript, TypeScript, GraphQL, and Rust.
@@ -156,3 +176,4 @@ GitUI uses a Catppuccin-style theme that matches the Alacritty palette.
 
 - `zsh/.zshrc` is tracked in this repo again and can be managed through Stow like the other packages.
 - `brew/` stays as repo-local support data and should not be passed to `stow`.
+- Several configs contain machine-specific paths and account-specific settings, especially `zsh/.zshrc`, `git/.gitconfig`, `tmux/.local/bin/tmux-sessionizer`, `tmuxp/.config/tmuxp/payments.yaml`, and `neovide/.config/neovide/config.toml`.

@@ -36,6 +36,5 @@ syntax-highlight
 time-out
 visual-studio-code
 warp
-workspace-one-intelligent-hub
 zed
 zoom
