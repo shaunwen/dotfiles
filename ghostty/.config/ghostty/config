@@ -1,0 +1,29 @@
+# Font
+font-family = "JetBrainsMono Nerd Font Mono"
+font-style = "SemiBold"
+# font-style = "Bold"
+font-size = 16
+
+# Appearance
+background-opacity = 1
+theme = Catppuccin Macchiato
+
+window-padding-x = 8
+window-padding-y = 6
+
+# Cursor
+cursor-style = block
+
+# Performance
+window-vsync = true
+
+# Clipboard
+copy-on-select = true
+
+# Shell
+command = /bin/zsh
+shell-integration = detect
+
+keybind = cmd+shift+r=reload_config
+# Cmd+k to send clear<enter> to clear screen
+keybind = cmd+k=text:clear\x0a
