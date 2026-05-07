@@ -74,8 +74,6 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-[ -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh ] && source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -103,12 +101,15 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 bindkey -v
-export EDITOR=nvim
+KEYTIMEOUT=100
 
+# env / path / tools root
+export EDITOR=nvim
+#
 export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
-
+#
 export DISABLE_AUTO_TITLE='true'
 export GOPATH=$HOME/go
 export GOROOT="$(brew --prefix go)/libexec"
@@ -128,38 +129,92 @@ export FORGIT_STASH_FZF_OPTS='
     --bind="ctrl-p:execute(git stash pop $(cut -d: -f1 <<<{}))+reload(git stash list)"
     --bind="ctrl-d:reload(git stash drop $(cut -d: -f1 <<<{}) 1>/dev/null && git stash list)"
   '
-
+# make zoxide use fzf
+export _ZO_FZF_OPTS="
+--height=50%
+--layout=reverse
+--border
+--info=inline
+--prompt='Jump ❯ '
+"
 export PATH="$PATH:/Users/shaun.wen/.yarn/bin:/usr/local/mysql/bin:/Users/shaun.wen/workspace/bin:/Users/shaun.wen/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:$(brew --prefix)/bin:$HOME/.cargo/bin:/usr/local/bin"
 export PATH="$PATH:/Applications/IntelliJ IDEA.app/Contents/MacOS"
 export PATH="$WASMTIME_HOME/bin:$PATH"
 export PATH="$PATH:/Users/shaun.wen/.kit/bin"
 export PATH="/opt/homebrew/bin/nvim:$PATH"
-
 export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+export WASMTIME_HOME="$HOME/.wasmtime"
+export PYENV_ROOT="$HOME/.pyenv"
+#
+. "$HOME/.local/bin/env"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 
-
+# aliases
 alias mbrew="arch -arm64 brew"
-
+#
 alias vi="nvim"
+alias cdswap="cd ~/.local/state/nvim/swap"
 alias e="direnv allow"
 alias vz="vi ~/.zshrc"
-alias cdswap="cd ~/.local/state/nvim/swap"
+alias fcd='cd $(ls|fzf)'
+alias qr="qrencode -t ansiutf8"
+# git related alias
 alias gpra="git pull --rebase --autostash"
 alias gpf="git push --force"
 alias gfpush="ggpush --force"
 alias glab="git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit"
 alias delMergedToDev="git branch --merged develop | grep -v "develop" | xargs -n 1 git branch -d"
 alias delMergedToMaster="git branch --merged master | grep -v "master" | xargs -n 1 git branch -d"
-alias qr="qrencode -t ansiutf8"
-alias addKey='eval $(ssh-agent) && ssh-add --apple-use-keychain ~/.ssh/id_ed25519_gh'
-alias fcd='cd $(ls|fzf)'
-alias backupnotes="gcam \"notes backup: \$(date +'%Y-%m-%d-%H:%M')\""
 alias gpwd='echo "branch $(git_current_branch) in $(pwd)" | pbcopy'
-
+alias addKey='eval $(ssh-agent) && ssh-add --apple-use-keychain ~/.ssh/id_ed25519_gh'
+#
+alias backupnotes="gcam \"notes backup: \$(date +'%Y-%m-%d-%H:%M')\""
+#
 alias cc="clang"
 alias vik="NVIM_APPNAME=kickstart nvim"
 alias vir="NVIM_APPNAME=NvChad-rust nvim"
+# scalapay specific
+alias ipj='cd "$( (find ~/workspace/projects/scalapay-repos -mindepth 1 -maxdepth 1 -type d; find ~/workspace/projects/scalapay-repos/rust -mindepth 1 -maxdepth 1 -type d 2>/dev/null) | fzf )"'
+alias icd="source pj"
+alias pj="cd ~/workspace/projects/scalapay-repos/"
+alias sc="codex exec 'Create a single git commit for unstaged changes'"
+alias sgc="CODEX_HOME=~/.codex-no-mcp codex exec 'use the skill named commit-work-general to create a git commit for unstaged changes'"
+# markdown preview on CLI
+alias gl="glow -s ~/.config/glow/styles/dark-customised.json"
+alias gll="fd -e md -E README.md -E CHANGELOG.md | CLICOLOR_FORCE=1 fzf --preview 'glow -w 120 -s ~/.config/glow/styles/dark-customised.json {}' --preview-window=right:80%"
+alias gl.="fd -e md -E README.md -E CHANGELOG.md | fzf | xargs glow -s ~/.config/glow/styles/dark-customised.json"
+
+# init scripts
+export FORGIT_PLUGIN="$(brew --prefix)/share/forgit/forgit.plugin.zsh"
+[ -f "$FORGIT_PLUGIN" ] && source "$FORGIT_PLUGIN"
+source <(fzf --zsh)
+source $(brew --prefix nvm)/nvm.sh
+#
+eval "$(direnv hook zsh)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
+eval "$(atuin init zsh)"
+
+# final manual bind overrides
+#
+#bindkey "ç" fzf-cd-widget # Option+c
+# bindkey -M vicmd '^R' atuin-search-vicmd
+#
+# Open buffer line in editor
+autoload -Uz edit-command-Line
+zle -N edit-command-line
+bindkey '^g' edit-command-line
+#
+# Copy current command to clipboard
+copy-command() {
+  echo -n $BUFFER | pbcopy # or xolip
+}
+zle -N copy-command
+bindkey '^xc' copy-command
 # nvim switcher, select a nvim config to start
 function vis() {
   items=("default" "kickstart" "NvChad-rust")
@@ -174,51 +229,5 @@ function vis() {
 }
 bindkey -s ^a "vis\n"
 
-# scalapay specific
-# alias ipj="cd \$(ls -d ~/workspace/projects/scalapay-repos/* | fzf)"
-alias ipj='cd "$( (find ~/workspace/projects/scalapay-repos -mindepth 1 -maxdepth 1 -type d; find ~/workspace/projects/scalapay-repos/rust -mindepth 1 -maxdepth 1 -type d 2>/dev/null) | fzf )"'
-alias icd="source pj"
-alias pj="cd ~/workspace/projects/scalapay-repos/"
-alias sc="codex exec 'Create a single git commit for unstaged changes'"
-alias sgc="CODEX_HOME=~/.codex-no-mcp codex exec 'use the skill named commit-work-general to create a git commit for unstaged changes'"
-#
-
-# markdown preview on CLI
-alias gl="glow -s ~/.config/glow/styles/dark-customised.json"
-
-alias gll="fd -e md -E README.md -E CHANGELOG.md | CLICOLOR_FORCE=1 fzf --preview 'glow -w 120 -s ~/.config/glow/styles/dark-customised.json {}' --preview-window=right:80%"
-alias gl.="fd -e md -E README.md -E CHANGELOG.md | fzf | xargs glow -s ~/.config/glow/styles/dark-customised.json"
-
-eval "$(direnv hook zsh)"
-
-source <(fzf --zsh)
-
-#bindkey "ç" fzf-cd-widget
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-export WASMTIME_HOME="$HOME/.wasmtime"
-
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# eval "$(gh copilot alias -- zsh)"
-
-. "$HOME/.local/bin/env"
-eval "$(uv generate-shell-completion zsh)"
-eval "$(uvx --generate-shell-completion zsh)"
-
-# make zoxide use fzf
-export _ZO_FZF_OPTS="
---height=50%
---layout=reverse
---border
---info=inline
---prompt='Jump ❯ '
-"
-eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
-eval "$(atuin init zsh)"
-
+# local configuration
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
