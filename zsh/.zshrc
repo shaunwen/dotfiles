@@ -8,9 +8,13 @@ HISTSIZE=100000
 SAVEHIST=100000
 setopt HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 
+[[ -d "$_ZSHRC_DIR/.zsh/completions" ]] && fpath=("$_ZSHRC_DIR/.zsh/completions" $fpath)
 [[ -n "$BREW_PREFIX" ]] && fpath=("$BREW_PREFIX/share/zsh-completions" $fpath)
 zmodload zsh/complist 2>/dev/null
-autoload -Uz compinit && compinit -i
+autoload -Uz compinit && compinit -C -i
+autoload -Uz _uv _uvx
+compdef _uv uv
+compdef _uvx uvx
 zstyle ':completion:*' menu select                       # arrow-key menu
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # case-insensitive
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}    # colourful menu
@@ -30,7 +34,7 @@ export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 #
 export GOPATH=$HOME/go
-export GOROOT="$(brew --prefix go)/libexec"
+export GOROOT="$BREW_PREFIX/opt/go/libexec"
 export ZK_NOTEBOOK_DIR="/Users/shaun.wen/Documents/myNotes"
 # forgit configuration
 # export FORGIT_GLO_FORMAT="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset"
@@ -55,7 +59,7 @@ export _ZO_FZF_OPTS="
 --info=inline
 --prompt='Jump ❯ '
 "
-export PATH="$PATH:/Users/shaun.wen/.yarn/bin:/usr/local/mysql/bin:/Users/shaun.wen/workspace/bin:/Users/shaun.wen/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:$(brew --prefix)/bin:$HOME/.cargo/bin:/usr/local/bin"
+export PATH="$PATH:/Users/shaun.wen/.yarn/bin:/usr/local/mysql/bin:/Users/shaun.wen/workspace/bin:/Users/shaun.wen/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:$BREW_PREFIX/bin:$HOME/.cargo/bin:/usr/local/bin"
 export PATH="$PATH:/Applications/IntelliJ IDEA.app/Contents/MacOS"
 export PATH="$PATH:/Users/shaun.wen/.kit/bin"
 export PATH="/opt/homebrew/bin/nvim:$PATH"
@@ -63,9 +67,51 @@ export NVM_DIR=~/.nvm
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$WASMTIME_HOME/bin:$PATH"
+path=("$PYENV_ROOT/shims" ${path:#$PYENV_ROOT/shims})
 #
 . "$HOME/.local/bin/env"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+
+_nvm_lazy_load() {
+  unset -f nvm node npm npx corepack
+  [[ -r "$BREW_PREFIX/opt/nvm/nvm.sh" ]] && source "$BREW_PREFIX/opt/nvm/nvm.sh"
+}
+
+nvm() {
+  _nvm_lazy_load
+  nvm "$@"
+}
+
+node() {
+  _nvm_lazy_load
+  node "$@"
+}
+
+npm() {
+  _nvm_lazy_load
+  npm "$@"
+}
+
+npx() {
+  _nvm_lazy_load
+  npx "$@"
+}
+
+corepack() {
+  _nvm_lazy_load
+  corepack "$@"
+}
+
+_pyenv_lazy_load() {
+  unset -f pyenv
+  eval "$(command pyenv init - --no-rehash zsh)"
+  eval "$(command pyenv virtualenv-init - 2>/dev/null)"
+}
+
+pyenv() {
+  _pyenv_lazy_load
+  pyenv "$@"
+}
 
 # aliases
 alias mbrew="arch -arm64 brew"
@@ -120,13 +166,8 @@ export FORGIT_PLUGIN="$BREW_PREFIX/share/forgit/forgit.plugin.zsh"
   && source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 #
 [[ -t 0 ]] && source <(fzf --zsh)
-[[ -r "$BREW_PREFIX/opt/nvm/nvm.sh" ]] && source "$BREW_PREFIX/opt/nvm/nvm.sh"
 #
 eval "$(direnv hook zsh)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-eval "$(uv generate-shell-completion zsh)"
-eval "$(uvx --generate-shell-completion zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
