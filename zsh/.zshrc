@@ -1,6 +1,6 @@
 BREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix 2>/dev/null)}"
 _ZSHRC_DIR="${${(%):-%N}:A:h}"
-fpath=(${fpath:#$HOME/.oh-my-zsh*})
+typeset -U fpath
 
 # Native Zsh history — kept as a backup / fallback for Atuin
 HISTFILE=~/.zsh_history
@@ -9,7 +9,7 @@ SAVEHIST=100000
 setopt HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 
 [[ -d "$_ZSHRC_DIR/.zsh/completions" ]] && fpath=("$_ZSHRC_DIR/.zsh/completions" $fpath)
-[[ -n "$BREW_PREFIX" ]] && fpath=("$BREW_PREFIX/share/zsh-completions" $fpath)
+[[ -d "$BREW_PREFIX/share/zsh-completions" ]] && fpath=("$BREW_PREFIX/share/zsh-completions" $fpath)
 zmodload zsh/complist 2>/dev/null
 autoload -Uz compinit && compinit -C -i
 autoload -Uz _uv _uvx
