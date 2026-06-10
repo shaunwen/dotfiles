@@ -182,6 +182,35 @@ eval "$(atuin init zsh)"
 #bindkey "ç" fzf-cd-widget # Option+c
 # bindkey -M vicmd '^R' atuin-search-vicmd
 #
+# Accept autosuggestions with Tab, otherwise keep normal completion.
+accept-autosuggestion-or-complete() {
+  if [[ -n "$POSTDISPLAY" ]]; then
+    zle autosuggest-accept
+    return
+  fi
+
+  if (( $+functions[_zsh_autosuggest_fetch_suggestion] )) && [[ -n "$BUFFER" ]]; then
+    unset suggestion
+    _zsh_autosuggest_fetch_suggestion "$BUFFER"
+    if [[ -n "$suggestion" && "$suggestion" == "$BUFFER"* && "$suggestion" != "$BUFFER" ]]; then
+      BUFFER="$suggestion"
+      CURSOR=$#BUFFER
+      POSTDISPLAY=
+      zle -R
+      return
+    fi
+    unset suggestion
+  else
+    zle expand-or-complete
+    return
+  fi
+
+  zle expand-or-complete
+}
+zle -N accept-autosuggestion-or-complete
+bindkey -M viins '^I' accept-autosuggestion-or-complete
+bindkey -M emacs '^I' accept-autosuggestion-or-complete
+#
 # Open buffer line in editor
 autoload -Uz edit-command-line
 zle -N edit-command-line
