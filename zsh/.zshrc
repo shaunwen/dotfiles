@@ -242,3 +242,7 @@ bindkey -s ^a "vis\n"
 # Keep syntax highlighting last so it can hook widgets defined above.
 [[ -r "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] \
   && source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/shaun.wen/.local/bin:$PATH"
