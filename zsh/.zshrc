@@ -126,6 +126,11 @@ else
   alias ll='ls -lh'
 fi
 #
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias md='mkdir -p'
+alias rd='rmdir'
 alias vi="nvim"
 alias cdswap="cd ~/.local/state/nvim/swap"
 alias e="direnv allow"
