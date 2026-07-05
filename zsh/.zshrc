@@ -239,6 +239,52 @@ bindkey -s ^a "vis\n"
 # local configuration
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 
+deepseek-balance() {
+    if [ -z "$DEEPSEEK_API_KEY" ]; then
+        echo "Error: DEEPSEEK_API_KEY environment variable not set"
+        return 1
+    fi
+    
+    curl -s -L -X GET 'https://api.deepseek.com/user/balance' \
+        -H 'Accept: application/json' \
+        -H "Authorization: Bearer $DEEPSEEK_API_KEY" \
+        | jq -r '.balance_infos[] | "\(.currency): \(.total_balance)"'
+}
+#
+# DeepSeek V4 Pro
+#
+cc-v4() {
+  echo "Starting Claude Code with DeepSeek V4 Pro..."
+  env \
+    ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
+    ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY" \
+    ANTHROPIC_MODEL="deepseek-v4-pro[1m]" \
+    ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-pro[1m]" \
+    ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-pro[1m]" \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash" \
+    ANTHROPIC_DEFAULT_OPUS_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
+    ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
+    CLAUDE_CODE_SUBAGENT_MODEL="deepseek-v4-pro[1m]" \
+    claude
+}
+#
+# Claude subscription (Claude Pro/Max/Team)
+# 
+cc-claude() {
+  env \
+    -u ANTHROPIC_BASE_URL \
+    -u ANTHROPIC_AUTH_TOKEN \
+    -u ANTHROPIC_API_KEY \
+    -u ANTHROPIC_MODEL \
+    -u ANTHROPIC_DEFAULT_OPUS_MODEL \
+    -u ANTHROPIC_DEFAULT_SONNET_MODEL \
+    -u ANTHROPIC_DEFAULT_HAIKU_MODEL \
+    -u CLAUDE_CODE_SUBAGENT_MODEL \
+    -u CLAUDE_CODE_EFFORT_LEVEL \
+    claude
+}
+
 # Keep syntax highlighting last so it can hook widgets defined above.
 [[ -r "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] \
   && source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
