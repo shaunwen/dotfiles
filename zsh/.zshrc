@@ -147,7 +147,7 @@ alias delMergedToMaster="git branch --merged master | grep -v "master" | xargs -
 alias gpwd='echo "branch $(git_current_branch) in $(pwd)" | pbcopy'
 alias addKey='eval $(ssh-agent) && ssh-add --apple-use-keychain ~/.ssh/id_ed25519_gh'
 #
-alias backupnotes="gcam \"notes backup: \$(date +'%Y-%m-%d-%H:%M')\""
+alias backupnotes='git add -A && git commit -m "notes backup: $(date +%Y-%m-%d-%H:%M)"'
 #
 alias cc="clang"
 alias vik="NVIM_APPNAME=kickstart nvim"
