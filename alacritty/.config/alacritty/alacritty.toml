@@ -1,4 +1,5 @@
 [window]
+decorations = "Buttonless"
 option_as_alt = "Both"
 # dynamic_title = true
 # option_as_alt = "OnlyLeft"
