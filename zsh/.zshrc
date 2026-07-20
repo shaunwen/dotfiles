@@ -63,7 +63,6 @@ export PATH="$PATH:/Users/shaun.wen/.yarn/bin:/usr/local/mysql/bin:/Users/shaun.
 export PATH="$PATH:/Applications/IntelliJ IDEA.app/Contents/MacOS"
 export PATH="$PATH:/Users/shaun.wen/.kit/bin"
 export PATH="/opt/homebrew/bin/nvim:$PATH"
-export NVM_DIR=~/.nvm
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$WASMTIME_HOME/bin:$PATH"
@@ -71,36 +70,6 @@ path=("$PYENV_ROOT/shims" ${path:#$PYENV_ROOT/shims})
 #
 . "$HOME/.local/bin/env"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-
-_nvm_lazy_load() {
-  unset -f nvm node npm npx corepack
-  [[ -r "$BREW_PREFIX/opt/nvm/nvm.sh" ]] && source "$BREW_PREFIX/opt/nvm/nvm.sh"
-}
-
-nvm() {
-  _nvm_lazy_load
-  nvm "$@"
-}
-
-node() {
-  _nvm_lazy_load
-  node "$@"
-}
-
-npm() {
-  _nvm_lazy_load
-  npm "$@"
-}
-
-npx() {
-  _nvm_lazy_load
-  npx "$@"
-}
-
-corepack() {
-  _nvm_lazy_load
-  corepack "$@"
-}
 
 _pyenv_lazy_load() {
   unset -f pyenv
@@ -162,6 +131,7 @@ alias sgc="CODEX_HOME=~/.codex-no-mcp codex exec 'use the skill named commit-wor
 alias gl="glow -s ~/.config/glow/styles/dark-customised.json"
 alias gll="fd -e md -E README.md -E CHANGELOG.md | CLICOLOR_FORCE=1 fzf --preview 'glow -w 120 -s ~/.config/glow/styles/dark-customised.json {}' --preview-window=right:80%"
 alias gl.="fd -e md -E README.md -E CHANGELOG.md | fzf | xargs glow -s ~/.config/glow/styles/dark-customised.json"
+alias glow="glow -s ~/.config/glow/styles/dark-customised.json"
 
 # init scripts
 export FORGIT_PLUGIN="$BREW_PREFIX/share/forgit/forgit.plugin.zsh"
@@ -174,6 +144,7 @@ export FORGIT_PLUGIN="$BREW_PREFIX/share/forgit/forgit.plugin.zsh"
 #
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
+eval "$(mise activate zsh)"
 eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
 
@@ -234,7 +205,7 @@ function vis() {
   fi
   NVIM_APPNAME=$config nvim $@
 }
-bindkey -s ^a "vis\n"
+bindkey -s ^v "vis\n"
 
 # local configuration
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
