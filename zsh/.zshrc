@@ -132,6 +132,8 @@ alias gl="glow -s ~/.config/glow/styles/dark-customised.json"
 alias gll="fd -e md -E README.md -E CHANGELOG.md | CLICOLOR_FORCE=1 fzf --preview 'glow -w 120 -s ~/.config/glow/styles/dark-customised.json {}' --preview-window=right:80%"
 alias gl.="fd -e md -E README.md -E CHANGELOG.md | fzf | xargs glow -s ~/.config/glow/styles/dark-customised.json"
 alias glow="glow -s ~/.config/glow/styles/dark-customised.json"
+# alias opencode='osc8wrap opencode'
+# alias claude='osc8wrap claude'
 
 # init scripts
 export FORGIT_PLUGIN="$BREW_PREFIX/share/forgit/forgit.plugin.zsh"
@@ -263,3 +265,12 @@ cc-claude() {
 
 # Added by Antigravity CLI installer
 export PATH="/Users/shaun.wen/.local/bin:$PATH"
+
+# Keep ~/.bun/bin last so the bun-installed `pi` wins over the pyenv shim.
+path+=("$HOME/.bun/bin")
+
+# Deduplicate PATH while preserving first-occurrence order.
+typeset -U path
+
+# bun completions
+[ -s "/Users/shaun.wen/.bun/_bun" ] && source "/Users/shaun.wen/.bun/_bun"
