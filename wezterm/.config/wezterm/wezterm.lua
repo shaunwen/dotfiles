@@ -13,8 +13,8 @@ config.macos_window_background_blur = 50
 config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "RESIZE"
 
--- ── Leader key (CTRL+A — same as tmux prefix) ──────────────────────────────
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+-- ── Leader key (CTRL+s — same as tmux prefix) ──────────────────────────────
+config.leader = { key = "s", mods = "CTRL", timeout_milliseconds = 1000 }
 
 -- ── Keybindings ─────────────────────────────────────────────────────────────
 config.keys = {
@@ -74,13 +74,16 @@ config.keys = {
 
 	-- ── macOS standard bindings (matching alacritty) ─────────────────────────
 
-	-- Cmd+K: send \f (form-feed/Ctrl-L) then clear scrollback
+	-- Cmd+K: send Ctrl-L into the pane so the shell/app actually clears
+	-- (updating herdr's own state), then fake a focus-out/focus-in cycle so
+	-- herdr (which only does a full repaint on focus-gained) redraws cleanly.
 	{
 		key = "k",
 		mods = "CMD",
 		action = act.Multiple({
 			act.SendString("\x0c"),
-			act.ClearScrollback("ScrollbackAndViewport"),
+			act.SendString("\x1b[O"),
+			act.SendString("\x1b[I"),
 		}),
 	},
 
