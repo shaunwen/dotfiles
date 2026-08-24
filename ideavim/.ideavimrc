@@ -1,7 +1,6 @@
 nnoremap \e :e ~/.ideavimrc<CR>
 nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
 set clipboard^=unnamed,unnamedplus
-set lazyredraw
 set ignorecase
 set incsearch
 set smartcase
