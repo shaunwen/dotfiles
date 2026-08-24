@@ -35,7 +35,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 #
 export GOPATH=$HOME/go
 export GOROOT="$BREW_PREFIX/opt/go/libexec"
-export ZK_NOTEBOOK_DIR="/Users/shaun.wen/Documents/myNotes"
+export ZK_NOTEBOOK_DIR="$HOME/Documents/myNotes"
 # forgit configuration
 # export FORGIT_GLO_FORMAT="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset"
 # export FORGIT_PAGER='delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
@@ -59,9 +59,9 @@ export _ZO_FZF_OPTS="
 --info=inline
 --prompt='Jump ❯ '
 "
-export PATH="$PATH:/Users/shaun.wen/.yarn/bin:/usr/local/mysql/bin:/Users/shaun.wen/workspace/bin:/Users/shaun.wen/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:$BREW_PREFIX/bin:$HOME/.cargo/bin:/usr/local/bin"
+export PATH="$PATH:$HOME/.yarn/bin:/usr/local/mysql/bin:$HOME/workspace/bin:$HOME/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:$BREW_PREFIX/bin:$HOME/.cargo/bin:/usr/local/bin"
 export PATH="$PATH:/Applications/IntelliJ IDEA.app/Contents/MacOS"
-export PATH="$PATH:/Users/shaun.wen/.kit/bin"
+export PATH="$PATH:$HOME/.kit/bin"
 export PATH="/opt/homebrew/bin/nvim:$PATH"
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PYENV_ROOT="$HOME/.pyenv"
@@ -264,7 +264,7 @@ cc-claude() {
 
 
 # Added by Antigravity CLI installer
-export PATH="/Users/shaun.wen/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Keep ~/.bun/bin last so the bun-installed `pi` wins over the pyenv shim.
 path+=("$HOME/.bun/bin")
@@ -273,7 +273,7 @@ path+=("$HOME/.bun/bin")
 typeset -U path
 
 # bun completions
-[ -s "/Users/shaun.wen/.bun/_bun" ] && source "/Users/shaun.wen/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # Run pi via bunx so it uses the latest published package.
 alias pi='bunx --bun pi'
