@@ -274,3 +274,6 @@ typeset -U path
 
 # bun completions
 [ -s "/Users/shaun.wen/.bun/_bun" ] && source "/Users/shaun.wen/.bun/_bun"
+
+# Run pi via bunx so it uses the latest published package.
+alias pi='bunx --bun pi'
