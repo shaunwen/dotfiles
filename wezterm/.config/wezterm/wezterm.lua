@@ -69,9 +69,6 @@ config.keys = {
 	{ key = "LeftArrow", mods = "CTRL|SHIFT", action = act.MoveTabRelative(-1) },
 	{ key = "RightArrow", mods = "CTRL|SHIFT", action = act.MoveTabRelative(1) },
 
-	-- Toggle herdr mode  (CTRL+SHIFT+H — suspends the Ctrl+A leader so it passes through to herdr)
-	{ key = "h", mods = "CTRL|SHIFT", action = act.EmitEvent("toggle-herdr-mode") },
-
 	-- ── macOS standard bindings (matching alacritty) ─────────────────────────
 
 	-- Cmd+K: send Ctrl-L into the pane so the shell/app actually clears
@@ -112,27 +109,5 @@ config.keys = {
 	-- Alt+J → send ESC+j  (matches alacritty chars = "\u001Bj")
 	{ key = "j", mods = "OPT", action = act.SendString("\x1bj") },
 }
-
--- ── Herdr mode toggle ───────────────────────────────────────────────────────
--- CTRL+SHIFT+H suspends the Ctrl+A leader for the current window so keystrokes
--- pass through to herdr uninterrupted.  Press again to restore it.
-wezterm.on("toggle-herdr-mode", function(window, _pane)
-	local overrides = window:get_config_overrides() or {}
-	if not overrides.leader then
-		-- Enter herdr mode: replace leader with an unreachable chord
-		overrides.leader = { key = "F13", mods = "CTRL|SHIFT|ALT", timeout_milliseconds = 1 }
-		window:set_config_overrides(overrides)
-		window:set_right_status(wezterm.format({
-			{ Attribute = { Intensity = "Bold" } },
-			{ Foreground = { AnsiColor = "Yellow" } },
-			{ Text = "  HERDR  " },
-		}))
-	else
-		-- Exit herdr mode: drop the override so the config-file leader comes back
-		overrides.leader = nil
-		window:set_config_overrides(overrides)
-		window:set_right_status("")
-	end
-end)
 
 return config
