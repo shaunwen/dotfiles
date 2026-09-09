@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal macOS development environment configuration for zsh, git, gitui, tmux, tmuxp, Alacritty, Ghostty, Vim, IdeaVim, Neovide, Karabiner, glow and Homebrew.
+Personal macOS development environment configuration for zsh, git, gitui, tmux, tmuxp, Alacritty, Ghostty, herdr, Vim, IdeaVim, Neovide, Karabiner, glow and Homebrew.
 
 ## Stow packages
 
@@ -13,6 +13,7 @@ This repo is organised as top-level GNU Stow packages:
 - `tmuxp/.config/tmuxp/payments.yaml`
 - `alacritty/.config/alacritty/alacritty.toml`
 - `ghostty/.config/ghostty/config`
+- `herdr/.config/herdr/config.toml`
 - `gitui/.config/gitui/theme.ron`
 - `glow/.config/glow/styles/dark-customised.json`
 - `neovide/.config/neovide/config.toml`

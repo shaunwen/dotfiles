@@ -1,0 +1,40 @@
+onboarding = false
+[keys]
+prefix = "ctrl+a"
+rename_tab = "prefix+comma"
+split_horizontal = "prefix+s"
+settings = "prefix+;"
+
+[[keys.command]]
+key = "shift+cmd+p"
+type = "plugin_action"
+command = "jt.command-palette.open"
+description = "Command palette"
+
+[[keys.command]]
+key = "prefix+up"
+type = "plugin_action"
+command = "cloudmanic.herdr-plus.projects"
+description = "herdr-plus: projects"
+
+[[keys.command]]
+key = "prefix+down"
+type = "plugin_action"
+command = "cloudmanic.herdr-plus.quick-actions"
+description = "herdr-plus: quick actions"
+
+[[keys.command]]
+key = "prefix+o"
+type = "pane"
+command = "herdr pane read $HERDR_ACTIVE_PANE_ID --source recent --lines 200 | tr -d '\\n\\r' | extract-urls | sort -u | fzf | xargs open"
+description = "Extract URLs from current pane and open selected one"
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[ui.toast]
+delivery = "terminal"
+
+[experimental]
+kitty_graphics = true
