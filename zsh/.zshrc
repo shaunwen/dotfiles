@@ -149,6 +149,12 @@ eval "$(mise activate zsh)"
 eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
 
+# Reset key-encoding modes (kitty CSI u, modifyOtherKeys) that a crashed or
+# detached TUI left enabled, otherwise keys reach zsh as literal "[99;5u" text.
+_reset_key_encoding() { [[ -t 1 ]] && printf '\e[=0;1u\e[>4;0m'; }
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _reset_key_encoding
+
 # final manual bind overrides
 #
 #bindkey "ç" fzf-cd-widget # Option+c
