@@ -69,7 +69,6 @@ redis
 resvg
 ripgrep-all
 rust-analyzer
-saulpw/vd/visidata
 sd
 sevenzip
 shaunwen/tap/myprs
