@@ -25,6 +25,7 @@
           delta;                                                       \
       fi                                                               \
   }"
+    abbrev = 7
   # config referened from https://github.com/wfxr/forgit/issues/121#issuecomment-725811214
 
 [interactive]
