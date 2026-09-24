@@ -1,1 +1,3 @@
 neovim_bin = "/opt/homebrew/bin/nvim"
+no-idle = false
+frame = "none"
