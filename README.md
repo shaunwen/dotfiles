@@ -177,4 +177,5 @@ GitUI uses a Catppuccin-style theme that matches the Alacritty palette.
 
 - `zsh/.zshrc` is tracked in this repo again and can be managed through Stow like the other packages.
 - `brew/` stays as repo-local support data and should not be passed to `stow`.
+- `dsh/profiles/` holds DeepSeek harness profile sources. Copy a profile into `~/.dsh/profiles/` instead of stowing it, because dsh installs the profile's `node_modules` next to its `package.json`.
 - Several configs contain machine-specific paths and account-specific settings, especially `zsh/.zshrc`, `git/.gitconfig`, `tmux/.local/bin/tmux-sessionizer`, `tmuxp/.config/tmuxp/payments.yaml`, and `neovide/.config/neovide/config.toml`.

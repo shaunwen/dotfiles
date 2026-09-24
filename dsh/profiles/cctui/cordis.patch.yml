@@ -1,0 +1,28 @@
+# Your patch layer for this dsh profile, applied after every bundle layer:
+# a top-level YAML array of loader patch entries (id-targeted config
+# overrides, disables, and insert lists; `!!js` expressions allowed).
+#
+# Effort default override: the dsh-tui bundle pins the DeepSeek adapter to
+# "full thinking at max effort" (`effort: max` + `reasoningEffort: max`).
+# Both rows below restate the bundle configs with `high` instead (a patch
+# replaces the whole row config, so every bundle-owned key is restated).
+
+# The native DeepSeek adapter: keep bundle defaults, but default reasoning
+# effort at high rather than max.
+- id: llm-deepseek
+  config:
+    apiKeyEnv: 'DEEPSEEK_API_KEY'
+    baseURL: !!js process.env.DEEPSEEK_BASE_URL
+    thinking: enabled
+    reasoningEffort: high
+
+# The TUI front door: per-request effort default (wins over the persisted
+# ~/.dsh-tui/effort.json at boot) — high instead of max.
+- id: dsh-tui
+  config:
+    provider: deepseek-official
+    fullscreen: false
+    effort: high
+    preset: !!js process.env.DSH_TUI_PRESET ?? undefined
+    workspace: !!js process.env.DSH_TUI_WORKSPACE_TARGET ?? undefined
+    sessionId: !!js process.env.DSH_TUI_RESUME_SESSION ?? process.env.DSH_CC_RESUME_SESSION ?? undefined

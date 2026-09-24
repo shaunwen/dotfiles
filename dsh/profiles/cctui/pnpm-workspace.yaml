@@ -1,0 +1,13 @@
+packages:
+  - .
+
+nodeLinker: hoisted
+autoInstallPeers: false
+minimumReleaseAgeExclude:
+  - '@deepseek-harness-tui/dsh-tui@0.10.2'
+allowBuilds:
+  '@google/genai': false
+  esbuild: false
+  koffi: false
+  protobufjs: false
+
