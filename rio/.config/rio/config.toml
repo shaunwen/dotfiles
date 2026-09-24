@@ -1,0 +1,106 @@
+# See the full configuration reference: https://rioterm.com/docs/config
+# Ported from ~/.config/alacritty/alacritty.toml
+
+# Top margin stays 0. A negative value (-28) visually reclaims the tab-strip
+# band Rio always reserves on macOS in "Tab" mode, but Rio's island keeps the
+# click routing for those pixels (see the comment at navigation.rs / island.rs),
+# so anything drawn there -- herdr's tab row -- stops responding to the mouse.
+margin = [0, 10, 10, 10]  # top, right, bottom, left
+
+[window]
+decorations = "Disabled"
+
+# "Tab" is the only mode on macOS that never overlaps content: it always
+# reserves ISLAND_HEIGHT at the top, with or without a second tab. The cost is
+# that band is always there -- hide-if-single cannot collapse it, because that
+# branch is #[cfg(not(target_os = "macos"))] in renderer/utils.rs. NativeTab
+# reserves nothing and lets the macOS tab bar paint over the content.
+[navigation]
+mode = "Tab"
+
+# Inactive splits get a background-coloured overlay at alpha 1.0 - this value.
+# 1.0 disables it. Read once in Renderer::new, i.e. per WINDOW -- needs Cmd+N.
+unfocused-split-opacity = 0.5
+
+[fonts]
+size = 16.0
+family = "JetBrainsMono Nerd Font"
+
+[cursor]
+shape = "block"
+blinking = false
+
+[scroll]
+multiplier = 3.0
+divider = 1.0
+
+[shell]
+program = "/bin/zsh"
+args = ["--login"]
+
+# No [bindings] section: every binding in the Alacritty config is already a Rio
+# default (Cmd+K clear, Cmd+0/=/-/+ font size, Cmd+Ctrl+F fullscreen, Cmd+B
+# search back, Cmd+C/V/Q/N/W/F), and option-as-alt covers Alt+J -> ESC j.
+# Splits are built in: Cmd+D right, Cmd+Shift+D down, Cmd+[ / Cmd+] to move
+# between them. Cmd+Ctrl+arrows is bound to MoveDivider* by default, but that
+# action is a no-op in Rio 0.5.27 (reproduced with a stock config), so resizing
+# a split is not currently possible.
+
+# Catppuccin Macchiato — same palette as ~/.config/alacritty/alacritty.toml
+# Split dividers only appear if [colors] split contrasts with the background;
+# the built-in #292527 does not. border-width/column-gap/row-gap and the split
+# colours are read once per ContextGrid, i.e. when a TAB is created -- editing
+# them needs a new window (Cmd+N), not just a config save.
+[panel]
+border-width = 2
+column-gap = 2
+row-gap = 2
+
+[colors]
+background = "#24273a"
+foreground = "#cad3f5"
+
+cursor = "#f4dbd6"
+vi-cursor = "#b7bdf8"
+
+split = "#5b6078"         # surface2 -- idle divider
+split-active = "#b7bdf8"  # INERT in 0.5.27: contextgrid::new takes this as
+                          # _border_active_color and discards it, so every
+                          # divider paints with `split`. Kept for when it lands.
+
+# Tab strip, from the official catppuccin/rio macchiato theme
+tabs = "#24273a"
+tabs-foreground = "#cad3f5"
+tabs-active = "#b7bdf8"
+tabs-active-highlight = "#b7bdf8"
+tabs-active-foreground = "#181926"
+
+selection-background = "#5b6078"
+selection-foreground = "#cad3f5"
+
+black = "#494d64"
+red = "#ed8796"
+green = "#a6da95"
+yellow = "#eed49f"
+blue = "#8aadf4"
+magenta = "#f5bde6"
+cyan = "#8bd5ca"
+white = "#b8c0e0"
+
+light-black = "#5b6078"
+light-red = "#ed8796"
+light-green = "#a6da95"
+light-yellow = "#eed49f"
+light-blue = "#8aadf4"
+light-magenta = "#f5bde6"
+light-cyan = "#8bd5ca"
+light-white = "#a5adcb"
+
+dim-black = "#363a4f"
+dim-red = "#c6626f"
+dim-green = "#87b878"
+dim-yellow = "#c9a97e"
+dim-blue = "#7090c8"
+dim-magenta = "#c99bbe"
+dim-cyan = "#72b0a5"
+dim-white = "#8e95ad"
