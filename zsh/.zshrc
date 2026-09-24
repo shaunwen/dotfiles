@@ -63,23 +63,9 @@ export PATH="$PATH:$HOME/.yarn/bin:/usr/local/mysql/bin:$HOME/workspace/bin:$HOM
 export PATH="$PATH:/Applications/IntelliJ IDEA.app/Contents/MacOS"
 export PATH="/opt/homebrew/bin/nvim:$PATH"
 export WASMTIME_HOME="$HOME/.wasmtime"
-export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$WASMTIME_HOME/bin:$PATH"
-path=("$PYENV_ROOT/shims" ${path:#$PYENV_ROOT/shims})
 #
 . "$HOME/.local/bin/env"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-
-_pyenv_lazy_load() {
-  unset -f pyenv
-  eval "$(command pyenv init - --no-rehash zsh)"
-  eval "$(command pyenv virtualenv-init - 2>/dev/null)"
-}
-
-pyenv() {
-  _pyenv_lazy_load
-  pyenv "$@"
-}
 
 # aliases
 alias mbrew="arch -arm64 brew"
@@ -271,7 +257,7 @@ cc-claude() {
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
 
-# Keep ~/.bun/bin last so the bun-installed `pi` wins over the pyenv shim.
+# Keep ~/.bun/bin last so the bun-installed `pi` wins over other shims.
 path+=("$HOME/.bun/bin")
 
 # Deduplicate PATH while preserving first-occurrence order.
