@@ -92,5 +92,5 @@ if has("gui_running")
   set bs=2
   set ai
   set ruler
-  set guifont=HackNerdFontComplete-Regular:h18
+  set guifont=JetBrainsMonoNFM-Regular:h16
 endif
