@@ -32,6 +32,10 @@ command = "persiyanov.reviewr.toggle"
 name = "catppuccin"
 auto_switch = false
 
+[theme.custom]
+accent = "#a6e3a1"
+overlay0 = "#f38ba8"
+
 [ui.toast]
 delivery = "terminal"
 
