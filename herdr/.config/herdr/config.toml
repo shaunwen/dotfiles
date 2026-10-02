@@ -34,7 +34,7 @@ auto_switch = false
 
 [theme.custom]
 accent = "#a6e3a1"
-overlay0 = "#f38ba8"
+overlay0 = "#a6656f"
 
 [ui.toast]
 delivery = "terminal"
