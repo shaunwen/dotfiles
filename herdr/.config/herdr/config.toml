@@ -28,6 +28,18 @@ key = "cmd+r"
 type = "plugin_action"
 command = "persiyanov.reviewr.toggle"
 
+[[keys.command]]
+key = "prefix+shift+down"
+type = "shell"
+command = "herdr pane swap --current --direction down"
+description = "Swap pane down"
+
+[[keys.command]]
+key = "prefix+shift+up"
+type = "shell"
+command = "herdr pane swap --current --direction up"
+description = "Swap pane up"
+
 [theme]
 name = "catppuccin"
 auto_switch = false
