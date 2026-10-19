@@ -257,7 +257,7 @@ cc-claude() {
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
 
-# Keep ~/.bun/bin last so the bun-installed `pi` wins over other shims.
+# Keep ~/.bun/bin last so bun global installs never shadow mise tools.
 path+=("$HOME/.bun/bin")
 
 # Deduplicate PATH while preserving first-occurrence order.
@@ -266,5 +266,5 @@ typeset -U path
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# Run pi via bunx so it uses the latest published package.
-alias pi='bunx --bun pi'
+# Run the mise-installed pi on the bun runtime instead of node.
+alias pi='bun --bun "$(dirname "$(mise which pi)")/../@earendil-works/pi-coding-agent/dist/cli.js"'
