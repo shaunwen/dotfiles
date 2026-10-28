@@ -215,21 +215,21 @@ deepseek-balance() {
         | jq -r '.balance_infos[] | "\(.currency): \(.total_balance)"'
 }
 #
-# DeepSeek V4 Pro
+# DeepSeek V4.1 Flash
 #
 cc-v4() {
-  echo "Starting Claude Code with DeepSeek V4 Pro..."
+  echo "Starting Claude Code with DeepSeek V4.1 Flash..."
   env \
     ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
     ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY" \
-    ANTHROPIC_MODEL="deepseek-v4-pro[1m]" \
-    ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-pro[1m]" \
-    ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-pro[1m]" \
-    ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash" \
+    ANTHROPIC_MODEL="deepseek-flash[1m]" \
+    ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-flash[1m]" \
+    ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-flash[1m]" \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-flash[1m]" \
     ANTHROPIC_DEFAULT_OPUS_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
     ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
     ANTHROPIC_DEFAULT_HAIKU_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
-    CLAUDE_CODE_SUBAGENT_MODEL="deepseek-v4-pro[1m]" \
+    CLAUDE_CODE_SUBAGENT_MODEL="deepseek-flash[1m]" \
     claude
 }
 #
