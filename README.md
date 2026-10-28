@@ -10,7 +10,6 @@ This repo is organised as top-level GNU Stow packages:
 - `git/.gitconfig`
 - `tmux/.tmux.conf`
 - `tmux/.local/bin/tmux-sessionizer`
-- `tmuxp/.config/tmuxp/session.yaml`
 - `alacritty/.config/alacritty/alacritty.toml`
 - `ghostty/.config/ghostty/config`
 - `herdr/.config/herdr/config.toml`
@@ -31,10 +30,14 @@ Neovim configuration lives in a separate repository: [shaunwen/nvim](https://git
 
 ## Setup
 
-This repository contains a mix of portable config and machine-specific paths. Before using it on another machine, update hard-coded directories in:
+Machine-specific and work-specific settings stay out of this repo, in untracked files that the tracked configs load when present:
 
-- `tmux/.local/bin/tmux-sessionizer`
-- `tmuxp/.config/tmuxp/session.yaml`
+| File | Loaded by | Holds |
+|---|---|---|
+| `~/.gitconfig.local` | `git/.gitconfig` (`[include]`) | Extra git config, e.g. `includeIf` rules that switch to a work identity |
+| `~/.zshenv.local` | `zsh/.zshenv` | Environment for every shell and GUI launch, e.g. `PROJECT_ROOTS`, `TMUX_SESSIONIZER_DIRS` (colon-separated folders for `tmux-sessionizer`, default `~/workspace:~/repos`) |
+| `~/.zshrc.local` | `zsh/.zshrc` | Interactive-shell aliases, API keys and other private settings |
+| `~/.config/tmuxp/*.yaml` | `tmuxp load <name>` | Session layouts, which name local project folders |
 
 Create the parent directories first:
 
@@ -46,13 +49,13 @@ Preview the Stow operations:
 
 ```sh
 cd ~/dotfiles
-stow -nv zsh git gitui tmux tmuxp vim ideavim neovide alacritty ghostty karabiner glow
+stow -nv zsh git gitui tmux vim ideavim neovide alacritty ghostty karabiner glow
 ```
 
 If the dry-run is clean, apply it:
 
 ```sh
-stow -Sv zsh git gitui tmux tmuxp vim ideavim neovide alacritty ghostty karabiner glow
+stow -Sv zsh git gitui tmux vim ideavim neovide alacritty ghostty karabiner glow
 ```
 
 If you already have unmanaged files in `$HOME`, Stow will report conflicts instead of overwriting them. In that case, either:
@@ -105,11 +108,11 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 Useful tmux and tmuxp commands:
 
 - save a session layout with tmuxp:
-  `tmuxp freeze session -f yaml -o ~/.config/tmuxp/session.yaml`
+  `tmuxp freeze <session> -f yaml -o ~/.config/tmuxp/<session>.yaml`
 - load a configured tmuxp session:
-  `tmuxp load session`
+  `tmuxp load <session>`
 - kill a tmux session:
-  `tmux kill-ses -t session`
+  `tmux kill-ses -t <session>`
 
 Quickly kill a session selected through `fzf`:
 
@@ -178,4 +181,4 @@ GitUI uses a Catppuccin-style theme that matches the Alacritty palette.
 - `zsh/.zshrc` is tracked in this repo again and can be managed through Stow like the other packages.
 - `brew/` stays as repo-local support data and should not be passed to `stow`.
 - `dsh/profiles/` holds DeepSeek harness profile sources. Copy a profile into `~/.dsh/profiles/` instead of stowing it, because dsh installs the profile's `node_modules` next to its `package.json`.
-- Several configs contain machine-specific paths and account-specific settings, especially `zsh/.zshrc`, `git/.gitconfig`, `tmux/.local/bin/tmux-sessionizer`, `tmuxp/.config/tmuxp/session.yaml`, and `neovide/.config/neovide/config.toml`.
+- Keep employer names, work paths and credentials in the untracked `*.local` files listed under Setup, never in this repo.
