@@ -278,3 +278,6 @@ typeset -U path
 
 # Run the mise-installed pi on the bun runtime instead of node.
 alias pi='bun --bun "$(dirname "$(mise which pi)")/../@earendil-works/pi-coding-agent/dist/cli.js"'
+
+# added by dbx installer
+export PATH="$HOME/.dbx/bin:$PATH"
