@@ -248,6 +248,16 @@ cc-claude() {
     -u CLAUDE_CODE_EFFORT_LEVEL \
     claude
 }
+#
+# FilmCraft desktop with its agent control channel. The token must be fresh per
+# app session and reach agents only by inheritance, so start dst / claude from
+# this same shell afterwards to use the `filmcraft` bridge MCP server.
+#
+filmcraft-session() {
+  export FILMCRAFT_CONTROL_TOKEN="$(openssl rand -hex 32)"
+  /Applications/FilmCraft.app/Contents/MacOS/FilmCraft --control 9876 >/dev/null 2>&1 &!
+  echo "FilmCraft control channel on 127.0.0.1:9876 - start dst or claude from this shell"
+}
 
 # Keep syntax highlighting last so it can hook widgets defined above.
 [[ -r "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] \
