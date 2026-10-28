@@ -49,7 +49,7 @@ accent = "#a6e3a1"
 overlay0 = "#a6656f"
 
 [ui.toast]
-delivery = "terminal"
+delivery = "system"
 
 [experimental]
 kitty_graphics = true
