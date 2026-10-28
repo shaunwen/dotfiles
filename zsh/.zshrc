@@ -42,7 +42,6 @@ export ZK_NOTEBOOK_DIR="$HOME/Documents/myNotes"
 export FORGIT_LOG_FORMAT="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ai) %C(bold blue)<%an>%Creset"
 export FORGIT_LOG_GRAPH_ENABLE=false
 export FORGIT_CHECKOUT_BRANCH_BRANCH_GIT_OPTS='--sort=-committerdate'
-export FORGIT_WORKTREE_ADD_DIR="$HOME/workspace/projects/work-repos/worktrees"
 export FORGIT_LOG_FZF_OPTS=' --bind="ctrl-e:execute(echo {} |grep -Eo [a-f0-9]+ |head -1 |xargs git show |nvim -R -n -c \"setlocal nomodified bufhidden=wipe\" -)" '
 export FORGIT_WORKTREE_FZF_OPTS="-s --scheme=path --delimiter=/ --with-nth='1,-1..' --prompt='Enter worktrees> '"
 export FORGIT_WORKTREE_DELETE_FZF_OPTS="--delimiter=/ --with-nth=-1.. --prompt='Delete worktree(s)> '"
@@ -106,10 +105,6 @@ alias backupnotes='git add -A && git commit -m "notes backup: $(date +%Y-%m-%d-%
 alias cc="clang"
 alias vik="NVIM_APPNAME=kickstart nvim"
 alias vir="NVIM_APPNAME=NvChad-rust nvim"
-# work specific
-alias ipj='cd "$( (find ~/workspace/projects/work-repos -mindepth 1 -maxdepth 1 -type d; find ~/workspace/projects/work-repos/rust -mindepth 1 -maxdepth 1 -type d 2>/dev/null) | fzf )"'
-alias icd="source pj"
-alias pj="cd ~/workspace/projects/work-repos/"
 alias sc="codex exec 'Create a single git commit for unstaged changes'"
 alias sgc="CODEX_HOME=~/.codex-no-mcp codex exec 'use the skill named commit-work-general to create a git commit for unstaged changes'"
 # markdown preview on CLI
