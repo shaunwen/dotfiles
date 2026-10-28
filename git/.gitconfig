@@ -2,13 +2,16 @@
 [user]
 	name = Shaun Wen
 	email = shaunwen01@gmail.com
+# Machine-local settings, e.g. includeIf rules for a work identity, stay untracked.
+[include]
+	path = ~/.gitconfig.local
 [githooks]
 	installDir = /Users/shaun.wen/.githooks
 	runner = /Users/shaun.wen/.githooks/release/base-template.sh
 	cloneUrl = https://github.com/rycus86/githooks.git
 	cloneBranch = master
 [alias]
-	hooks = !\"/Users/shaun.wen/.githooks/bin/githooks\"
+	hooks = !\"$HOME/.githooks/bin/githooks\"
 	lol = log --graph --decorate --oneline
 [githooks "autoupdate"]
 	enabled = true
