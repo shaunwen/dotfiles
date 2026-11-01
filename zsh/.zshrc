@@ -35,7 +35,9 @@ export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 #
 export GOPATH=$HOME/go
 export GOROOT="$BREW_PREFIX/opt/go/libexec"
-export ZK_NOTEBOOK_DIR="$HOME/Documents/myNotes"
+# Default notebook location; machines that keep the vault elsewhere override it
+# in ~/.zshenv.local or ~/.zshrc.local.
+export ZK_NOTEBOOK_DIR="${ZK_NOTEBOOK_DIR:-$HOME/Documents/myNotes}"
 # forgit configuration
 # export FORGIT_GLO_FORMAT="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset"
 # export FORGIT_PAGER='delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
