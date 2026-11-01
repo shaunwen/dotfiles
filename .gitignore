@@ -1,3 +1,10 @@
 .DS_Store
 .idea
 .vscode
+
+# ~/.local/bin is a symlink into tmux/.local/bin, so tool installers (uv,
+# tree-sitter, ...) write into this repo. Keep the tracked sessionizer script
+# and ignore everything else that lands there.
+tmux/.local/bin/*
+!tmux/.local/bin/tmux-sessionizer
+
