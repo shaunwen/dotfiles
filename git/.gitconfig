@@ -63,3 +63,5 @@
 
 [push]
     autoSetupRemote = true
+[url "git@ssh.bitbucket.org:"]
+	insteadOf = git@bitbucket.org:
