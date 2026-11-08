@@ -33,8 +33,6 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 #
-export GOPATH=$HOME/go
-export GOROOT="$BREW_PREFIX/opt/go/libexec"
 # Default notebook location; machines that keep the vault elsewhere override it
 # in ~/.zshenv.local or ~/.zshrc.local.
 export ZK_NOTEBOOK_DIR="${ZK_NOTEBOOK_DIR:-$HOME/Documents/myNotes}"
@@ -60,9 +58,8 @@ export _ZO_FZF_OPTS="
 --info=inline
 --prompt='Jump ❯ '
 "
-export PATH="$PATH:$HOME/.yarn/bin:/usr/local/mysql/bin:$HOME/workspace/bin:$HOME/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:$BREW_PREFIX/bin:$HOME/.cargo/bin:/usr/local/bin"
+export PATH="$PATH:$HOME/.yarn/bin:/usr/local/mysql/bin:$HOME/workspace/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/go/bin"
 export PATH="$PATH:/Applications/IntelliJ IDEA.app/Contents/MacOS"
-export PATH="/opt/homebrew/bin/nvim:$PATH"
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PATH="$WASMTIME_HOME/bin:$PATH"
 #
@@ -266,6 +263,9 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Keep ~/.bun/bin last so bun global installs never shadow mise tools.
 path+=("$HOME/.bun/bin")
+
+# rustup's toolchain must shadow Homebrew's rust, which brew shellenv in ~/.zprofile puts first.
+path=("$HOME/.cargo/bin" $path)
 
 # Deduplicate PATH while preserving first-occurrence order.
 typeset -U path
