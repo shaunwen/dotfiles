@@ -278,3 +278,5 @@ alias pi='bun --bun "$(dirname "$(mise which pi)")/../@earendil-works/pi-coding-
 
 # added by dbx installer
 export PATH="$HOME/.dbx/bin:$PATH"
+
+alias claude-nomem='claude --settings '\''{"enabledPlugins":{"claude-mem@thedotmack":false}}'\'''
