@@ -13,6 +13,7 @@ This repo is organised as top-level GNU Stow packages:
 - `alacritty/.config/alacritty/alacritty.toml`
 - `ghostty/.config/ghostty/config`
 - `herdr/.config/herdr/config.toml`
+- `herdr/.local/bin/alerter`
 - `gitui/.config/gitui/theme.ron`
 - `glow/.config/glow/styles/dark-customised.json`
 - `neovide/.config/neovide/config.toml`
@@ -42,20 +43,20 @@ Machine-specific and work-specific settings stay out of this repo, in untracked 
 Create the parent directories first:
 
 ```sh
-mkdir -p ~/.local/bin ~/.config/gitui ~/.config/ghostty ~/.config/tmuxp ~/.config/neovide ~/.config/alacritty ~/.config/karabiner ~/.config/glow/styles
+mkdir -p ~/.local/bin ~/.config/herdr ~/.config/gitui ~/.config/ghostty ~/.config/tmuxp ~/.config/neovide ~/.config/alacritty ~/.config/karabiner ~/.config/glow/styles
 ```
 
 Preview the Stow operations:
 
 ```sh
 cd ~/dotfiles
-stow -nv zsh git gitui tmux vim ideavim neovide alacritty ghostty karabiner glow
+stow -nv zsh git gitui tmux vim ideavim neovide alacritty ghostty herdr karabiner glow
 ```
 
 If the dry-run is clean, apply it:
 
 ```sh
-stow -Sv zsh git gitui tmux vim ideavim neovide alacritty ghostty karabiner glow
+stow -Sv zsh git gitui tmux vim ideavim neovide alacritty ghostty herdr karabiner glow
 ```
 
 If you already have unmanaged files in `$HOME`, Stow will report conflicts instead of overwriting them. In that case, either:
@@ -149,6 +150,16 @@ The Alacritty config uses:
 - macOS-style copy, paste, font scaling, fullscreen, and search shortcuts
 - `selection.save_to_clipboard = true`
 - scrollback history of `100000`
+
+## herdr
+
+`herdr/.config/herdr/config.toml` turns herdr's own agent popups off (`[ui.toast] delivery = "off"`), because on macOS they cannot bring Rio forward or select the agent's pane. Notifications come from the [herdr-focus-notify](https://github.com/yankewei/herdr-focus-notify) plugin instead, which is not tracked here:
+
+```sh
+herdr plugin install yankewei/herdr-focus-notify --yes
+```
+
+The plugin calls `alerter`, which cannot deliver notifications on macOS 27. `herdr/.local/bin/alerter` is a stand-in that sends them through `terminal-notifier` (in `brew_formulae.txt`) and stores the plugin's focus command in each notification, so clicking one focuses its own pane. Remove it once [alerter#61](https://github.com/vjeantet/alerter/issues/61) or [herdr-focus-notify#34](https://github.com/yankewei/herdr-focus-notify/issues/34) is fixed.
 
 ## Git, Ghostty, Glow and Neovide
 

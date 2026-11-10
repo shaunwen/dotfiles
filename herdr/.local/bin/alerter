@@ -1,0 +1,62 @@
+#!/bin/sh
+# alerter-compatible shim over terminal-notifier 3.x for herdr-focus-notify.
+#
+# Real alerter posts through NSUserNotification, which macOS 27 no longer delivers.
+# Waiting for the click (-action) is unreliable too: every waiting terminal-notifier
+# shares one bundle id and macOS hands a click to any of them, so the wrong pane gets
+# focused. Instead, the plugin's own focus command (read from the calling
+# focus-*.sh script) is stored in the notification with -execute, which macOS runs
+# for exactly the notification that was clicked. The shim then returns at once with
+# no outcome, so the calling script does not focus anything itself.
+
+set -eu
+
+notifier=/opt/homebrew/bin/terminal-notifier
+
+if [ "${1:-}" = "--remove" ]; then
+  exec "$notifier" -remove "${2:?group required}"
+fi
+
+set_opt() { eval "$1=\$2"; }
+
+title="" message="" subtitle="" group=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --title=*) set_opt title "${1#*=}" ;;
+    --message=*) set_opt message "${1#*=}" ;;
+    --subtitle=*) set_opt subtitle "${1#*=}" ;;
+    --title|--message|--subtitle|--group) set_opt "${1#--}" "${2:-}"; shift ;;
+    --app-icon|--close-label|--sender|--content-image|--actions|--timeout) shift ;;
+    *) ;;
+  esac
+  shift
+done
+
+escape_leading() {
+  case "$1" in
+    [-\[\(\{\"\']*) printf '\\%s' "$1" ;;
+    *) printf '%s' "$1" ;;
+  esac
+}
+
+shell_quote() { printf "'%s'" "$(printf '%s' "$1" | sed "s/'/'\\\\''/g")"; }
+
+calling_script="$(ps -o args= -p "$PPID" | awk '{print $2}')"
+focus_command=""
+if [ -f "$calling_script" ]; then
+  focus_command="$(grep -m1 -- '--focus-pane' "$calling_script" | sed 's/^[[:space:]]*//')"
+fi
+
+set -- -title "$(escape_leading "$title")" -message "$(escape_leading "$message")" -sound default
+[ -z "$subtitle" ] || set -- "$@" -subtitle "$(escape_leading "$subtitle")"
+[ -z "$group" ] || set -- "$@" -group "$group"
+if [ -n "$focus_command" ]; then
+  env_prefix=""
+  for name in HERDR_SOCKET_PATH HERDR_PLUGIN_STATE_DIR; do
+    eval "value=\${$name:-}"
+    [ -z "$value" ] || env_prefix="$env_prefix$name=$(shell_quote "$value") "
+  done
+  set -- "$@" -execute "$env_prefix$focus_command"
+fi
+
+exec "$notifier" "$@"
