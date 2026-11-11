@@ -46,7 +46,6 @@ lua-language-server
 luarocks
 mactop
 mise
-models
 mysql
 nao1215/tap/sqly
 nvm
