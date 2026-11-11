@@ -75,7 +75,7 @@ cd brew
 
 `brew/install_brew_packages.zsh` installs both `brew_formulae.txt` and `brew_casks.txt`.
 
-The package lists include the main tools this repo expects, such as `tmux`, `tmuxp`, `fzf`, `ripgrep`, `fd`, `gitui`, `alacritty`, `karabiner-elements`, and Nerd Font casks.
+The package lists include the main tools this repo expects, such as `tmux`, `tmuxp`, `fzf`, `ripgrep`, `fd`, `gitui`, `mise`, `herdr`, `rio`, `karabiner-elements`, and Nerd Font casks. Alacritty is no longer installable through Homebrew (its cask is disabled for failing Gatekeeper), so install it from its GitHub releases if you still want it.
 
 ## Tmux
 
