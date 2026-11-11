@@ -1,5 +1,4 @@
 alexsjones/llmfit/llmfit
-antoniorodr/memo/memo
 atac
 atlassian/acli/acli
 atuin
