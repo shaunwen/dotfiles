@@ -4,6 +4,7 @@ prefix = "ctrl+a"
 rename_tab = "prefix+comma"
 split_horizontal = "prefix+s"
 settings = "prefix+;"
+focus_agent = "prefix+shift+1..9"
 
 [[keys.command]]
 key = "shift+cmd+p"
@@ -47,6 +48,9 @@ auto_switch = false
 [theme.custom]
 accent = "#a6e3a1"
 overlay0 = "#a6656f"
+
+[ui]
+agent_panel_sort = "priority"
 
 [ui.toast]
 delivery = "off"

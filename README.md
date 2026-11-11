@@ -161,6 +161,8 @@ herdr plugin install yankewei/herdr-focus-notify --yes
 
 The plugin calls `alerter`, which cannot deliver notifications on macOS 27. `herdr/.local/bin/alerter` is a stand-in that sends them through `terminal-notifier` (in `brew_formulae.txt`) and stores the plugin's focus command in each notification, so clicking one focuses its own pane. Remove it once [alerter#61](https://github.com/vjeantet/alerter/issues/61) or [herdr-focus-notify#34](https://github.com/yankewei/herdr-focus-notify/issues/34) is fixed.
 
+To jump to an agent from the keyboard, the agent sidebar is sorted by priority (`[ui] agent_panel_sort = "priority"`), so blocked and done agents sit at the top, and `prefix+shift+1..9` (`focus_agent`) focuses rows 1 to 9 of that list.
+
 ## Git, Ghostty, Glow and Neovide
 
 `git/.gitconfig` tracks the user-level Git setup, including `delta` as the pager, `diff3` merge conflict style, and local aliases and githooks paths.
