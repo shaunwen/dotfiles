@@ -224,7 +224,7 @@ cc-v4() {
     ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
     ANTHROPIC_DEFAULT_HAIKU_MODEL_SUPPORTED_CAPABILITIES="effort,thinking" \
     CLAUDE_CODE_SUBAGENT_MODEL="deepseek-flash[1m]" \
-    claude
+    claude "$@"
 }
 #
 # Claude subscription (Claude Pro/Max/Team)
@@ -240,7 +240,7 @@ cc-claude() {
     -u ANTHROPIC_DEFAULT_HAIKU_MODEL \
     -u CLAUDE_CODE_SUBAGENT_MODEL \
     -u CLAUDE_CODE_EFFORT_LEVEL \
-    claude
+    claude "$@"
 }
 #
 # FilmCraft desktop with its agent control channel. The token must be fresh per
