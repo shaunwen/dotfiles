@@ -7,6 +7,10 @@
 # so anything drawn there -- herdr's tab row -- stops responding to the mouse.
 margin = [0, 10, 10, 10]  # top, right, bottom, left
 
+# Left Option sends Alt (fzf-lua alt-h/alt-i, shell, Neovim); right Option still
+# types symbols such as £ and é.
+option-as-alt = "left"
+
 [window]
 decorations = "Disabled"
 
@@ -40,8 +44,7 @@ args = ["--login"]
 
 # No [bindings] section: every binding in the Alacritty config is already a Rio
 # default (Cmd+K clear, Cmd+0/=/-/+ font size, Cmd+Ctrl+F fullscreen, Cmd+B
-# search back, Cmd+C/V/Q/N/W/F). Rio's option-as-alt defaults to "none", so
-# Option+key types a symbol (Option+1 -> "¡") rather than sending Alt.
+# search back, Cmd+C/V/Q/N/W/F).
 # Splits are built in: Cmd+D right, Cmd+Shift+D down, Cmd+[ / Cmd+] to move
 # between them. Cmd+Ctrl+arrows is bound to MoveDivider* by default, but that
 # action is a no-op in Rio 0.5.27 (reproduced with a stock config), so resizing
