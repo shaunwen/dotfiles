@@ -5,6 +5,8 @@ rename_tab = "prefix+comma"
 split_horizontal = "prefix+s"
 settings = "prefix+;"
 focus_agent = "prefix+shift+1..9"
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
 
 [[keys.command]]
 key = "shift+cmd+p"
@@ -28,18 +30,6 @@ description = "herdr-plus: quick actions"
 key = "cmd+r"
 type = "plugin_action"
 command = "persiyanov.reviewr.toggle"
-
-[[keys.command]]
-key = "prefix+shift+down"
-type = "shell"
-command = "herdr pane swap --current --direction down"
-description = "Swap pane down"
-
-[[keys.command]]
-key = "prefix+shift+up"
-type = "shell"
-command = "herdr pane swap --current --direction up"
-description = "Swap pane up"
 
 [theme]
 name = "catppuccin"
